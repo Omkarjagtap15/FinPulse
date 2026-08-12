@@ -2,13 +2,9 @@
 NatWest FinPulse — Dynamic Exposure Monitor
 ============================================
 Main entry point. Run with:  streamlit run app.py
-
-This file is intentionally slim — it only:
-  1. Configures the Streamlit page
-  2. Injects custom CSS styles
-  3. Loads data (cached)
-  4. Renders the sidebar
-  5. Routes to the correct view
+FinPulse — Dynamic Exposure Monitor
+=============================================
+Orchestrator script that initializes Streamlit and routes to views.
 """
 import warnings
 import streamlit as st
@@ -21,7 +17,7 @@ from src.views import render_sidebar, render_population_view, render_customer_vi
 
 # ── Page Configuration ───────────────────────────────────────────────────────
 st.set_page_config(
-    page_title="NatWest FinPulse · Dynamic Exposure Monitor",
+    page_title="FinPulse · Dynamic Exposure Monitor",
     page_icon="🏦",
     layout="wide",
     initial_sidebar_state="expanded",

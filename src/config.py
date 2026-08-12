@@ -48,7 +48,7 @@ EWS_ACTIONS = {
 }
 
 # ── Color Palette ────────────────────────────────────────────────────────────
-PRIMARY   = "#378ADD"   # NatWest blue — forecasts, main lines
+PRIMARY   = "#378ADD"   # Primary blue — forecasts, main lines
 NEUTRAL   = "#B4B2A9"   # Gray — naive baseline
 BAND      = "rgba(55,138,221,0.10)"  # Light blue — confidence bands
 RED       = "#E24B4A"   # Danger — overdraft, critical EWS

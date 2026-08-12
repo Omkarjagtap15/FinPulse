@@ -32,7 +32,7 @@ def render_sidebar(meta):
     state = {}
 
     with st.sidebar:
-        st.markdown("### 🏦 NatWest FinPulse")
+        st.markdown("### 🏦 FinPulse")
         st.caption("Dynamic Exposure Monitor · 1,000 customers · 8 segments")
         st.divider()
 
@@ -76,7 +76,7 @@ def render_sidebar(meta):
         if GEMINI:
             st.success("Gemini AI insights active")
         else:
-            st.warning("Add GEMINI_API_KEY to .env for AI insights.")
-        st.caption("NatWest Hackathon · Apache 2.0 · DCO signed")
+            st.warning("AI Insights offline (API Key required).")
+        st.caption("Apache 2.0 · DCO signed")
 
     return state

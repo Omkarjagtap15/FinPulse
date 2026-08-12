@@ -67,14 +67,14 @@ def seg_ai_prompt(seg: str, pct_r: float, mfhs: float,
     stress  : Stress exposure percentage (10% shock)
     n       : Number of customers in segment
     """
-    return f"""You are a senior NatWest risk analyst. Write exactly 2 sentences for the Head of Retail Risk.
+    return f"""You are a senior risk analyst. Write exactly 2 sentences for the Head of Retail Risk.
 Be specific with numbers. No bullet points. No jargon.
 Segment: {SEG_LABEL.get(seg, seg)} ({n} customers)
 Liquidity exposure: {pct_r:.0f}%  Stress exposure (10% shock): {stress:.0f}%
 Median DES: {mfhs:.1f}/100  Avg overdraft days: {od:.1f}
 Recommended product: {SEG_OPP.get(seg, '')}
 Sentence 1: describe the risk with numbers.
-Sentence 2: recommend a specific NatWest action."""
+Sentence 2: recommend a specific action."""
 
 
 def cust_ai_prompt(seg: str, fhs: float, runway: float,
@@ -92,7 +92,7 @@ def cust_ai_prompt(seg: str, fhs: float, runway: float,
     od      : Overdraft days predicted
     bal14   : Predicted balance in 14 days
     """
-    return f"""You are a friendly NatWest advisor. Write 2 plain-English sentences for a customer.
+    return f"""You are a friendly financial advisor. Write 2 plain-English sentences for a customer.
 Segment: {SEG_LABEL.get(seg, seg)}  DES: {fhs:.0f}/100  Runway: {runway:.0f}d
 Spend velocity: {vel:.2f}x  Overdraft days: {od}  Balance in 14d: £{bal14:,.0f}
 Sentence 1: what their money situation looks like.
