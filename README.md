@@ -3,17 +3,19 @@
 # FinPulse — Dynamic Exposure Monitor
 
 [![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://finpulse-4emtrj3zww3kb4cmfxi6vl.streamlit.app/)
+
 > **Live Demo:** [https://finpulse-4emtrj3zww3kb4cmfxi6vl.streamlit.app/](https://finpulse-4emtrj3zww3kb4cmfxi6vl.streamlit.app/)
 
 [![Python](https://img.shields.io/badge/Python-3.10+-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://python.org)
 [![Streamlit](https://img.shields.io/badge/Streamlit-1.56+-FF4B4B?style=for-the-badge&logo=streamlit&logoColor=white)](https://streamlit.io)
+[![Scikit--Learn](https://img.shields.io/badge/Scikit--Learn-1.9+-F7931E?style=for-the-badge&logo=scikitlearn&logoColor=white)](https://scikit-learn.org)
 [![Plotly](https://img.shields.io/badge/Plotly-6.7-3F4F75?style=for-the-badge&logo=plotly&logoColor=white)](https://plotly.com)
 [![Gemini AI](https://img.shields.io/badge/Gemini_AI-1.5_Flash-4285F4?style=for-the-badge&logo=google&logoColor=white)](https://ai.google.dev)
 [![License](https://img.shields.io/badge/License-Apache_2.0-green?style=for-the-badge)](LICENSE)
 
-A proactive liquidity risk intelligence platform that monitors **1,000 retail banking customers** across **8 behavioral segments**, forecasts financial health **30 days ahead** using Prophet time-series modeling, and triggers **Early Warning Signals** before customers enter financial distress.
+A proactive liquidity risk intelligence platform that monitors **1,000 retail banking customers** across **8 behavioral segments**, forecasts financial health **30 days ahead** using Holt-Winters Exponential Smoothing, and triggers **Early Warning Signals** before customers enter financial distress.
 
-[Live Preview](#-live-preview) · [Features](#-features) · [Use Cases](#-hackathon-use-cases-addressed) · [How It Works](#-how-it-works) · [Architecture](#-architecture) · [Quick Start](#-quick-start) · [Tech Stack](#-tech-stack) · [Team](#-team-contributions)
+[Live Demo](#-live-preview) · [Features](#-features) · [ML Pipeline](#-machine-learning-pipeline) · [How It Works](#-how-it-works) · [Architecture](#-architecture) · [Quick Start](#-quick-start) · [Tech Stack](#-tech-stack)
 
 </div>
 
@@ -23,11 +25,11 @@ A proactive liquidity risk intelligence platform that monitors **1,000 retail ba
 
 Traditional banking risk systems operate reactively — flagging financial problems **after** a customer has already entered overdraft. This results in accrued fees, damaged customer trust, and limited opportunity for meaningful intervention.
 
-**FinPulse** addresses this gap by shifting risk monitoring from reactive to **predictive**. Using time-series forecasting and real-time anomaly detection, the system identifies at-risk customers **days to weeks in advance**, enabling relationship managers to intervene with appropriately targeted financial products.
+**FinPulse** addresses this gap by shifting risk monitoring from reactive to **predictive**. Using time-series forecasting, classification models, and real-time anomaly detection, the system identifies at-risk customers **days to weeks in advance**, enabling relationship managers to intervene with appropriately targeted financial products.
 
 | Reactive Approach | FinPulse Approach |
 |:---|:---|
-| Flags issues after overdraft occurs | Predicts risk 30 days ahead |
+| Flags issues after overdraft occurs | Predicts risk 30 days ahead using ML models |
 | Manual portfolio review | Automated EWS alerts with priority tiers |
 | Uniform treatment across customers | 8 behavioral segments with tailored actions |
 | Static reports | Real-time interactive dashboards with AI insights |
@@ -36,7 +38,7 @@ Traditional banking risk systems operate reactively — flagging financial probl
 
 ## 🖥 Live Preview
 
-> **Launch locally:** `streamlit run app.py` → opens at **http://localhost:8501**
+> **Live App:** [https://finpulse-4emtrj3zww3kb4cmfxi6vl.streamlit.app/](https://finpulse-4emtrj3zww3kb4cmfxi6vl.streamlit.app/)
 
 ### View 1 — Population Risk Intelligence
 Bank-wide risk overview for risk managers: KPI cards, liquidity exposure heatmap, EWS console, revenue opportunity signals.
@@ -62,30 +64,51 @@ Individual customer drill-down: 30-day balance forecast, DES history, stress tes
 - **Liquidity Exposure Heatmap** — Segment × week matrix showing percentage of customers breaching risk tolerance thresholds, color-coded from green (safe) to red (critical)
 - **EWS Console** — Priority 1 alert table ranked by breach severity with segment-specific recommended actions
 - **Revenue Opportunity Signals** — Cross-sell and upsell product recommendations mapped to each segment's behavioral profile
-- **Segment Deep-Dive** — Forecast chart with historical trend, Prophet prediction, naive baseline comparison, 10% stress scenario, and confidence bands
+- **Segment Deep-Dive** — Forecast chart with historical trend, Holt-Winters prediction, naive baseline comparison, 10% stress scenario, and confidence bands
 - **AI Intervention Recommendation** — Gemini-generated, data-driven 2-sentence risk summary with specific action recommendation
 
 ### Customer Exposure Detail (Individual Drill-Down)
 - **Customer KPI Cards** — Current balance, Dynamic Exposure Score, liquidity runway (days), spend velocity ratio
 - **Active EWS Banners** — Auto-displayed critical overdraft risk and seasonal spike alerts with recommended actions
-- **30-Day Forecast Chart** — Up to 8 overlaid traces including actual balance, Prophet forecast, 80% confidence band, naive baseline, stress scenario, overdraft zone, and anomaly markers
+- **30-Day Forecast Chart** — Up to 8 overlaid traces including actual balance, Holt-Winters forecast, 80% confidence band, naive baseline, stress scenario, overdraft zone, and anomaly markers
 - **Stress Test Simulator** — Enter any immediate spend amount (£0–£20,000) and watch the forecast shift in real-time to reveal capital adequacy impact
 - **DES History** — 90-day sparkline with GREEN (≥60) and RED (<35) threshold lines
 - **AI Personal Insight** — Customer-facing, plain-English financial guidance generated by Gemini
 
 ---
 
-## 🎯 Hackathon Use Cases Addressed
+## 🤖 Machine Learning Pipeline
 
-This platform directly addresses the core hackathon themes of **Predictive Forecasting** and **AI-Driven Customer Insights**:
+The project includes a complete, end-to-end ML pipeline (`ml_pipeline.py`) that generates data, engineers features, trains models, runs statistical tests, and saves all metrics and visualizations.
 
-| Use Case | How FinPulse Addresses It |
-|:---|:---|
-| **Spot Trouble Early** | The EWS engine detects sudden dips in the worst-case forecast range, identifying overdraft breaches and seasonal income spikes *before* they occur — not after. |
-| **Explanations for Non-Experts** | Gemini AI strips away statistical jargon. Instead of showing a customer a "p25 lower bound variance," it tells them: *"You have 14 days of liquidity runway. Consider reducing spend this week."* |
-| **Understand Uncertainty** | Risk tolerance thresholds are visually represented using shaded confidence bands, demonstrating that forecasting operates in probability ranges — not exact numbers. |
-| **Compare Plans** | The interactive scenario slider enables "What-if" stress testing for immediate capital outflows, showing users the precise consequence of a large purchase on their 30-day forecast. |
-| **Revenue Generation** | Low-risk customer profiles (high DES scores) are correlated with specific NatWest product up-sells — ISAs, Wealth Management, Invoice Financing — surfaced through Revenue Opportunity Signals. |
+### Classification — Risk Tier Prediction
+- **Models:** Logistic Regression (baseline) and Random Forest Classifier (ensemble)
+- **Target:** Risk Tier (`High`, `Medium`, `Low`) derived from DES score thresholds
+- **Features:** 11 engineered behavioral features per customer (balance stats, trend, volatility, runway, velocity)
+- **Evaluation:** Stratified 80/20 split, Classification Report, Confusion Matrix, ROC Curves, Feature Importance
+
+### Unsupervised Clustering — Customer Segmentation
+- **Algorithm:** K-Means Clustering with Elbow Method and Silhouette Coefficient evaluation (k=2 to k=12)
+- **Visualization:** PCA 2D projection with cluster-segment cross-tabulation
+- **Purpose:** Validates whether financial behaviors naturally cluster into the 8 predefined segments
+
+### Time-Series Forecasting — 30-Day Balance Prediction
+- **Primary Model:** Holt-Winters Additive Exponential Smoothing (weekly seasonality, `seasonal_periods=7`)
+- **Fallback 1:** Holt-Winters Trend-Only (if insufficient seasonal data)
+- **Fallback 2:** Linear Trend Extrapolation via `np.polyfit` (if model fails to converge)
+- **Confidence Intervals:** 80% CI using `±1.28 × residual_std`
+
+### Statistical Hypothesis Testing
+- **ANOVA** — Tests if mean balance differs significantly across 8 segments
+- **Chi-Square** — Tests independence between risk tier and customer segment
+- **T-Test** — Compares DES scores between `stable_salaried` vs `sme_distressed`
+- **Pearson Correlation** — Linear relationship between balance and DES
+- **Spearman Correlation** — Monotonic relationship between spend velocity and DES
+
+### Anomaly Detection — Early Warning Signals
+- **Method:** Statistical anomaly detection comparing actual balances against model predictions
+- **CRITICAL_EWS:** Balance falls below forecast lower confidence bound
+- **HIGH_VARIANCE:** Deviation exceeds 2× historical standard deviation
 
 ---
 
@@ -108,16 +131,18 @@ DES = 0.40 × Balance Buffer
 | 🟡 AMBER | 35 – 59 | Requires monitoring — potential intervention candidate |
 | 🔴 RED | 0 – 34 | At risk — immediate intervention recommended |
 
-### Time-Series Forecasting (Prophet)
+### Feature Engineering
 
-The forecasting layer uses **Facebook Prophet** to generate 30-day balance predictions from 90 days of historical data:
+Per-customer behavioral features are aggregated from 90 days of daily time-series data:
 
-- **Trend decomposition** — Separates long-term direction from cyclical patterns
-- **Multi-seasonality** — Captures weekly (weekend spending) and monthly (salary cycle) patterns
-- **Uncertainty quantification** — Produces 80% confidence intervals, not point estimates
-- **Robustness** — Handles missing data and outliers inherent in real banking data
-
-A **naive baseline** (7-day rolling average) runs in parallel. When the Prophet forecast diverges significantly from the baseline (>£100), a **Market Divergence Signal** flags a potential structural shift such as interest rate impact or regional economic stress.
+| Feature | Calculation | Business Purpose |
+|:---|:---|:---|
+| `bal_mean`, `bal_std` | Mean & Std. Dev. of daily balance | Average wealth & volatility |
+| `bal_trend` | Slope from linear regression (`np.polyfit`) | Structural trajectory (£/day) |
+| `bal_cv` | Coefficient of Variation (σ/μ) | Normalized volatility |
+| `fhs_mean`, `fhs_std` | Mean & Std. Dev. of DES score | Financial health stability |
+| `runway_mean` | Mean liquidity runway (days) | Time-to-insolvency |
+| `vel_mean`, `vel_max` | Mean & peak spend velocity ratio | Spending acceleration detection |
 
 ### Anomaly Detection — Early Warning Signals (EWS)
 
@@ -125,7 +150,7 @@ Two-tier severity system that compares actual balances against model predictions
 
 | Severity | Trigger Condition | Response Protocol |
 |:---|:---|:---|
-| **P1 — CRITICAL** | Actual balance fell below the Prophet lower confidence bound | Immediate intervention — escalate to relationship manager |
+| **P1 — CRITICAL** | Actual balance fell below the forecast lower confidence bound | Immediate intervention — escalate to relationship manager |
 | **P2 — HIGH VARIANCE** | Significant deviation from expected pattern (above threshold) | Enhanced monitoring — schedule next-day review |
 
 ### Stress Testing
@@ -141,7 +166,7 @@ Two structured prompt templates feed customer/segment metrics to **Gemini 1.5 Fl
 
 | Prompt Target | Audience | Output |
 |:---|:---|:---|
-| `seg_ai_prompt()` | Head of Retail Risk | 2-sentence risk assessment with specific NatWest action recommendation |
+| `seg_ai_prompt()` | Head of Retail Risk | 2-sentence risk assessment with specific action recommendation |
 | `cust_ai_prompt()` | Customer advisor / Customer-facing | 2-sentence plain-English financial guidance with one practical action |
 
 The system degrades gracefully — if the API key is absent or the call fails, pre-computed static fallback messages are displayed.
@@ -182,16 +207,17 @@ Eight behavioral segments, each with distinct risk profiles, product opportuniti
 │                   Plotly Visualization Layer                     │
 │   chart_heatmap()  ·  chart_seg()  ·  chart_customer()         │
 ├─────────────────────────────────────────────────────────────────┤
-│                    Analytics & ML Layer                          │
-│   DES Scoring  ·  Prophet Forecast  ·  Anomaly Detection       │
-│   Stress Testing  ·  Naive Baseline  ·  EWS Engine             │
+│                    ML & Analytics Layer                          │
+│   Risk Classification (RF/LR)  ·  K-Means Clustering           │
+│   Holt-Winters Forecasting  ·  Statistical Hypothesis Testing   │
+│   Anomaly Detection  ·  Feature Engineering  ·  EWS Engine      │
 ├─────────────────────────────────────────────────────────────────┤
 │                      Gemini AI Layer                            │
 │   Risk Analyst Prompts  ·  Customer Advisor Prompts            │
 ├─────────────────────────────────────────────────────────────────┤
-│                    Data Layer (7 CSV Files)                      │
-│   population · meta · segment_summary · forecasts              │
-│   segment_forecasts · anomalies · forecast_meta                │
+│                   Data Layer (SQLite + CSV)                      │
+│   finpulse.db  ·  population  ·  forecasts  ·  anomalies       │
+│   segment_summary  ·  segment_forecasts  ·  forecast_meta      │
 └─────────────────────────────────────────────────────────────────┘
 ```
 
@@ -200,17 +226,21 @@ Eight behavioral segments, each with distinct risk profiles, product opportuniti
 ```mermaid
 graph LR
     A[Raw Transaction Data] --> B[Feature Engineering]
-    B --> C[Prophet Model Training]
-    C --> D[30-Day Forecasts]
-    D --> E[Anomaly Detection]
-    E --> F[EWS Triggers]
-    F --> G[Dashboard]
-    B --> H[DES Calculation]
-    H --> G
-    D --> I[Stress Testing]
-    I --> G
-    G --> J[Gemini AI]
-    J --> G
+    B --> C[ML Model Training]
+    C --> D[Risk Classification]
+    C --> E[K-Means Clustering]
+    C --> F[Holt-Winters Forecasting]
+    F --> G[30-Day Forecasts]
+    G --> H[Anomaly Detection]
+    H --> I[EWS Triggers]
+    B --> J[DES Calculation]
+    G --> K[Stress Testing]
+    I --> L[SQLite Database]
+    J --> L
+    K --> L
+    L --> M[Streamlit Dashboard]
+    M --> N[Gemini AI Insights]
+    N --> M
 ```
 
 ---
@@ -218,15 +248,20 @@ graph LR
 ## 📁 Project Structure
 
 ```
-NatWest-FinPulse/
+FinPulse/
 │
-├── app.py                         # Entry point — orchestrator (45 lines)
+├── app.py                         # Entry point — Streamlit orchestrator
+├── ml_pipeline.py                 # End-to-end ML pipeline orchestrator
 ├── generate_data.py               # Synthetic data generator (1,000 customers)
-├── .env                           # GEMINI_API_KEY=your_key_here
+├── requirements.txt               # All Python dependencies
+├── .gitignore                     # Security — excludes API keys & secrets
 │
 ├── src/                           # Source modules
 │   ├── config.py                  # Segments, labels, colors, EWS actions
-│   ├── data_loader.py             # CSV loading with @st.cache_data
+│   ├── data_loader.py             # SQLite/CSV loading with @st.cache_data
+│   ├── ml_models.py               # Core ML engine — classification, clustering,
+│   │                              #   forecasting, statistical tests, anomaly detection
+│   ├── database.py                # SQLite database layer — schema, indexes, SQL queries
 │   ├── ai_engine.py               # Gemini AI setup, prompts, API calls
 │   ├── ews.py                     # Early Warning Signal logic
 │   ├── styles.py                  # Custom CSS (pills, banners, AI boxes)
@@ -241,14 +276,23 @@ NatWest-FinPulse/
 │       ├── population.py          # View 1 — Population risk intelligence
 │       └── customer.py            # View 2 — Customer exposure detail
 │
-├── data/                          # Generated CSV data (7 files, ~150K rows total)
+├── notebooks/                     # Analysis notebooks
+│   └── eda_analysis.py            # Comprehensive EDA with hypothesis testing,
+│                                  #   model evaluation, and 19 publication-ready plots
+│
+├── data/                          # Generated data (SQLite + CSV)
+│   ├── finpulse.db                # SQLite database — indexed, production-ready
 │   ├── population.csv             # 90,000 rows — daily customer balances
-│   ├── population_meta.csv        # 1,000 rows — customer profiles
+│   ├── population_meta.csv        # 1,000 rows — customer profiles & risk tiers
 │   ├── segment_summary.csv        # 720 rows — historical segment aggregates
 │   ├── forecasts.csv              # 30,000 rows — 30-day balance predictions
 │   ├── segment_forecasts.csv      # 240 rows — segment-level forecasts
 │   ├── anomalies.csv              # ~1,000 rows — detected anomaly events
 │   └── forecast_meta.csv          # 1,000 rows — forecast summaries
+│
+├── model_results/                 # ML pipeline outputs
+│   ├── customer_features.csv      # Engineered feature matrix (1,000 customers)
+│   └── fig_01..fig_19.png         # 19 publication-ready analysis plots
 │
 └── assets/                        # Screenshots for documentation
     ├── preview_population.png
@@ -268,35 +312,25 @@ NatWest-FinPulse/
 ### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/your-username/natwest-finpulse.git
-cd natwest-finpulse
+git clone https://github.com/Omkarjagtap15/FinPulse.git
+cd FinPulse
 ```
 
 ### 2. Install Dependencies
 
 ```bash
-pip install pandas numpy plotly streamlit python-dotenv google-generativeai
+pip install -r requirements.txt
 ```
 
-### 3. Generate Sample Data
+### 3. Run the ML Pipeline (Optional — data is pre-generated)
 
 ```bash
-python generate_data.py
+python ml_pipeline.py
 ```
 
-This creates 7 CSV files in `data/` with synthetic financial data for 1,000 customers across 8 behavioral segments.
+This generates synthetic data, trains all ML models (classification, clustering, forecasting), runs statistical hypothesis tests, and saves results to `data/` and `model_results/`.
 
-### 4. Configure Gemini AI *(optional)*
-
-Create a `.env` file in the project root:
-
-```
-GEMINI_API_KEY=your_api_key_here
-```
-
-Obtain a free API key at [Google AI Studio](https://aistudio.google.com/apikey). The dashboard functions fully without the key — the "Generate ↗" buttons will display pre-computed fallback insights.
-
-### 5. Launch the Dashboard
+### 4. Launch the Dashboard
 
 ```bash
 streamlit run app.py
@@ -304,17 +338,30 @@ streamlit run app.py
 
 The dashboard opens at **http://localhost:8501**.
 
+### 5. Configure Gemini AI *(Optional)*
+
+To enable AI-generated insights, set your API key as an environment variable:
+
+```bash
+export GEMINI_API_KEY=your_api_key_here
+```
+
+Obtain a free API key at [Google AI Studio](https://aistudio.google.com/apikey). The dashboard functions fully without the key — AI sections will display pre-computed fallback insights.
+
 ---
 
 ## 🛠 Tech Stack
 
 | Layer | Technology | Purpose |
 |:---|:---|:---|
+| **Machine Learning** | Scikit-Learn 1.9 | Classification (Random Forest, Logistic Regression), K-Means Clustering |
+| **Time-Series** | Statsmodels | Holt-Winters Exponential Smoothing with seasonal decomposition |
+| **Statistics** | SciPy | Hypothesis testing — ANOVA, Chi-Square, T-Test, Pearson & Spearman correlation |
+| **Database** | SQLite | Indexed relational database with parameterized SQL queries |
 | **Frontend** | Streamlit 1.56+ | Interactive dashboard framework |
-| **Visualization** | Plotly 6.7 | Interactive charts — heatmaps, time-series, scatter |
-| **Data Processing** | Pandas 3.x, NumPy 2.x | Data manipulation and statistical computation |
+| **Visualization** | Plotly 6.7, Matplotlib, Seaborn | Interactive charts, heatmaps, time-series, EDA plots |
+| **Data Processing** | Pandas 3.x, NumPy 2.x | Data manipulation and feature engineering |
 | **AI Engine** | Google Gemini 1.5 Flash | Natural language risk insights and recommendations |
-| **Configuration** | python-dotenv | Secure environment variable management |
 | **Language** | Python 3.10+ | Core application language |
 
 ---
@@ -330,19 +377,6 @@ SEG_LABEL["student"] = "University Student"
 SEG_OPP["student"] = "Student account, budgeting tools"
 EWS_ACTIONS["student"] = "Send budgeting notification"
 ```
-
----
-
-## 👥 Team Contributions
-
-To maintain strict Git DCO compliance, code continuity, and a clean commit history, this repository was managed and pushed through a single project lead. The architecture, modeling, and data synthesis were the result of a collaborative effort by a team of four:
-
-| Member | Role | Key Contributions |
-|:---|:---|:---|
-| **Aryan** | Project Lead | Repository architecture, Streamlit UI/UX engineering, Gemini API integration, open-source compliance (Git/DCO) |
-| **Aditya** | Data Engineer | Bank-grade synthetic data generation (`generate_data.py`), schema architecture, segment definition |
-| **Omkar** | ML Engineer | Statistical forecasting logic, Early Warning Signal (EWS) anomaly detection, Dynamic Exposure Score (DES) mathematics |
-| **Mehul** | UX & Documentation | UI/UX strategy, LLM prompt engineering, scenario testing, project documentation |
 
 ---
 
@@ -364,18 +398,18 @@ This project is licensed under the **Apache License 2.0**. See [LICENSE](LICENSE
 
 ## Acknowledgments
 
-- **NatWest Group** — Hackathon challenge and domain context
 - **Google** — Gemini AI platform
-- **Meta** — Prophet time-series forecasting library
 - **Streamlit** — Dashboard framework
+- **Scikit-Learn** — Machine learning library
 
 ---
 
 <div align="center">
 
-**NatWest FinPulse** · National Hackathon 2026 Submission
+**FinPulse** · Dynamic Exposure Monitor
 
 [![Streamlit](https://img.shields.io/badge/Streamlit-FF4B4B?style=flat-square&logo=streamlit&logoColor=white)](https://streamlit.io)
 [![Gemini](https://img.shields.io/badge/Gemini_AI-4285F4?style=flat-square&logo=google&logoColor=white)](https://ai.google.dev)
+[![Scikit-Learn](https://img.shields.io/badge/Scikit--Learn-F7931E?style=flat-square&logo=scikitlearn&logoColor=white)](https://scikit-learn.org)
 
 </div>
