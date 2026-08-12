@@ -1,6 +1,6 @@
 <div align="center">
 
-# NatWest FinPulse — Dynamic Exposure Monitor
+# FinPulse — Dynamic Exposure Monitor
 
 [![Python](https://img.shields.io/badge/Python-3.10+-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://python.org)
 [![Streamlit](https://img.shields.io/badge/Streamlit-1.56+-FF4B4B?style=for-the-badge&logo=streamlit&logoColor=white)](https://streamlit.io)
