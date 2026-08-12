@@ -1,0 +1,22 @@
+# Environment
+.env
+.venv/
+venv/
+__pycache__/
+*.pyc
+
+# Data (committing synthetic data so the deployed app has data to display)
+# data/*.csv
+# data/*.db
+
+# Model artifacts
+model_results/*.pkl
+model_results/*.json
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
